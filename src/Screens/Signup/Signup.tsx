@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
 
 const SignupScreen = () => {
   const navigation = useNavigation();
@@ -24,6 +25,14 @@ const SignupScreen = () => {
 
     try {
       await auth().createUserWithEmailAndPassword(email, password);
+      const user = auth().currentUser;
+      if (user) {
+        const userRef = firestore().collection('users').doc(user.uid);
+        await userRef.set({
+          email: user.email,
+          uid: user.uid,
+        });
+      }
       Alert.alert('Success', 'Account created successfully!');
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {

@@ -1,17 +1,59 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
-  Button,
-  Text,
-  View,
-  StyleSheet,
+  Alert,
   Modal,
+  Text,
   TextInput,
   TouchableOpacity,
+  View,
+  StyleSheet,
+  Button,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
 
 const Home: React.FC = () => {
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>('');
+  const [modalVisible, setModalVisible] = React.useState<boolean>(false);
+  const [email, setEmail] = React.useState<string>('');
+  const navigation = useNavigation();
+
+  // Function to get user ID by email from Firestore
+  const getUserByEmail = async (email: string): Promise<string | null> => {
+    try {
+      const usersRef = firestore().collection('users');
+      const snapshot = await usersRef.where('email', '==', email).get();
+      if (!snapshot.empty) {
+        const userData = snapshot.docs[0].data();
+        return userData.uid;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error('Error retrieving user data:', error);
+      return null;
+    }
+  };
+
+  const handleSubmitEmail = async (): Promise<void> => {
+    try {
+      const userId = await getUserByEmail(email);
+
+      if (userId) {
+        navigation.navigate('Chat', {userId});
+      } else {
+        // Email does not exist in Firestore
+        Alert.alert(
+          'Email Not Found',
+          'No account is associated with this email.',
+        );
+      }
+    } catch (error) {
+      console.error('Error checking email:', error);
+      Alert.alert('Error', 'There was an error checking the email.');
+    } finally {
+      handleCloseModal();
+    }
+  };
 
   const handleOpenModal = (): void => {
     setModalVisible(true);
@@ -21,14 +63,9 @@ const Home: React.FC = () => {
     setModalVisible(false);
   };
 
-  const handleSubmitEmail = (): void => {
-    setModalVisible(false);
-  };
-
   return (
     <View style={styles.container}>
       <Button title="Start a new chat" onPress={handleOpenModal} />
-
       <Modal
         animationType="slide"
         transparent={true}
