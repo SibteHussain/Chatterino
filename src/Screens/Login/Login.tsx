@@ -8,15 +8,33 @@ import {
   Alert,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {setUUID} from '../../GlobalState/UserSlice';
 
 const LoginScreen: React.FC = () => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
   const handleLogin = async () => {
     try {
-      await auth().signInWithEmailAndPassword(email, password);
-      Alert.alert('Success', 'You are logged in!');
+      const userCredential = await auth().signInWithEmailAndPassword(
+        email,
+        password,
+      );
+      const user = userCredential.user;
+      if (user) {
+        const userId = user.uid;
+        dispatch(setUUID(userId));
+        Alert.alert('Success', 'You are logged in!');
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'Main'}],
+        });
+        navigation.navigate('Main');
+      }
     } catch (error) {
       if (error.code === 'auth/invalid-email') {
         Alert.alert('Error', 'That email address is invalid!');

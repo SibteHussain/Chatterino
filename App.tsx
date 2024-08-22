@@ -1,7 +1,8 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-
-import AuthNavigator from './src/Navigators/AuthNavigator';
+import RootNavigator from './src/Navigators/RootNavigator';
+import {Provider} from 'react-redux';
+import store from './src/GlobalState/Store';
 
 function App(): React.JSX.Element {
   return (
@@ -36,7 +37,9 @@ function App(): React.JSX.Element {
     //   </ScrollView>
     // </SafeAreaView>
     <NavigationContainer>
-      <AuthNavigator />
+      <Provider store={store}>
+        <RootNavigator />
+      </Provider>
     </NavigationContainer>
   );
 }
