@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "725092673942",
+    "project_id": "chatterino-cad32",
+    "storage_bucket": "chatterino-cad32.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725092673942:android:64629b5c1e0f7bf73c95b7",
+        "android_client_info": {
+          "package_name": "com.chatterino"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo2NilWsMN-FlmuGOF-446hebVFy4EaNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
