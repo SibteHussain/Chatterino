@@ -121,6 +121,11 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+      implementation(project(':react-native-gesture-handler')) {
+        exclude group: 'com.android.support'
+        exclude group: 'androidx.core'
+    }
+    
 }
 
 
