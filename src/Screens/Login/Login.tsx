@@ -8,12 +8,13 @@ import {
   Alert,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, NavigationProp} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {setUUID} from '../../GlobalState/UserSlice';
+import {StackParamList} from '../../Types/NavigationTypes.ts';
 
 const LoginScreen: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<StackParamList>>();
   const dispatch = useDispatch();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -35,7 +36,7 @@ const LoginScreen: React.FC = () => {
         });
         navigation.navigate('Main');
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error.code === 'auth/invalid-email') {
         Alert.alert('Error', 'That email address is invalid!');
       } else if (error.code === 'auth/user-not-found') {
@@ -55,6 +56,7 @@ const LoginScreen: React.FC = () => {
       <TextInput
         style={styles.input}
         placeholder="Email"
+        placeholderTextColor={'#000000'}
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
@@ -64,6 +66,7 @@ const LoginScreen: React.FC = () => {
       <TextInput
         style={styles.input}
         placeholder="Password"
+        placeholderTextColor={'#000000'}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
@@ -87,6 +90,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     marginBottom: 20,
     textAlign: 'center',
+    color: '#000000',
   },
   input: {
     borderWidth: 1,
@@ -95,6 +99,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 15,
     backgroundColor: '#fff',
+    color: '#000000',
   },
   button: {
     backgroundColor: '#0066cc',

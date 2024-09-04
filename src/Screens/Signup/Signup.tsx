@@ -8,14 +8,15 @@ import {
   Alert,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, NavigationProp} from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
+import {StackParamList} from '../../Types/NavigationTypes.ts';
 
-const SignupScreen = () => {
-  const navigation = useNavigation();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+const SignupScreen: React.FC = () => {
+  const navigation = useNavigation<NavigationProp<StackParamList>>();
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
 
   const handleSignup = async () => {
     if (password !== confirmPassword) {
@@ -34,13 +35,13 @@ const SignupScreen = () => {
         });
       }
       Alert.alert('Success', 'Account created successfully!');
-    } catch (error) {
+    } catch (error: any) {
       if (error.code === 'auth/email-already-in-use') {
         Alert.alert('Error', 'That email address is already in use!');
       } else if (error.code === 'auth/invalid-email') {
         Alert.alert('Error', 'That email address is invalid!');
       } else {
-        console.error('Error', error.message);
+        Alert.alert('Error', error.message);
       }
     }
   };
@@ -52,6 +53,7 @@ const SignupScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="Email"
+        placeholderTextColor={'#000000'}
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
@@ -61,6 +63,7 @@ const SignupScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="Password"
+        placeholderTextColor={'#000000'}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
@@ -69,6 +72,7 @@ const SignupScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="Confirm Password"
+        placeholderTextColor={'#000000'}
         value={confirmPassword}
         onChangeText={setConfirmPassword}
         secureTextEntry
@@ -95,6 +99,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     marginBottom: 20,
     textAlign: 'center',
+    color: '#000000',
   },
   input: {
     borderWidth: 1,
@@ -103,6 +108,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 15,
     backgroundColor: '#fff',
+    color: '#000000',
   },
   button: {
     backgroundColor: '#0066cc',

@@ -71,6 +71,7 @@ const ChatScreen: FC<{route: {params: {userId: string}}}> = ({route}) => {
         <TextInput
           style={styles.input}
           placeholder="Type a message..."
+          placeholderTextColor={'#000000'}
           value={message}
           onChangeText={setMessage}
         />
@@ -94,6 +95,7 @@ const styles = StyleSheet.create({
   },
   messageText: {
     fontSize: 16,
+    color: '#000000',
   },
   inputContainer: {
     flexDirection: 'row',
@@ -110,6 +112,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     marginRight: 10,
+    color: '#000000',
   },
   button: {
     backgroundColor: '#0066cc',
